@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supabase_quickstart/components/avatar.dart';
 import 'package:supabase_quickstart/constants.dart';
+import 'package:supabase_quickstart/pages/account_page.dart';
 
-class AccountPage extends StatefulWidget {
-  const AccountPage({super.key});
+class SamplePage extends StatefulWidget {
+  const SamplePage({super.key});
 
   @override
-  _AccountPageState createState() => _AccountPageState();
+  _SamplePageState createState() => _SamplePageState();
 }
 
-class _AccountPageState extends State<AccountPage> {
+class _SamplePageState extends State<SamplePage> {
   final _usernameController = TextEditingController();
   final _websiteController = TextEditingController();
   String? _avatarUrl;
@@ -44,33 +45,7 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   /// Called when user taps `Update` button
-  Future<void> _updateProfile() async {
-    setState(() {
-      _loading = true;
-    });
-    final userName = _usernameController.text.trim();
-    final website = _websiteController.text.trim();
-    final user = supabase.auth.currentUser;
-    final updates = {
-      'id': user!.id,
-      'username': userName,
-      'website': website,
-      'updated_at': DateTime.now().toIso8601String(),
-    };
-    try {
-      await supabase.from('profiles').upsert(updates);
-      if (mounted) {
-        context.showSnackBar(message: 'Successfully updated profile!');
-      }
-    } on PostgrestException catch (error) {
-      context.showErrorSnackBar(message: error.message);
-    } catch (error) {
-      context.showErrorSnackBar(message: 'Unexpeted error occurred');
-    }
-    setState(() {
-      _loading = false;
-    });
-  }
+  Future<void> redirectUpdateProfilePage() async {}
 
   Future<void> _signOut() async {
     try {
@@ -126,12 +101,7 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile'), actions: [
-        IconButton(
-          onPressed: _signOut,
-          icon: const Icon(Icons.logout),
-        ),
-      ]),
+      appBar: AppBar(title: const Text('Sample')),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
@@ -140,20 +110,25 @@ class _AccountPageState extends State<AccountPage> {
             onUpload: _onUpload,
           ),
           const SizedBox(height: 18),
-          TextFormField(
-            controller: _usernameController,
-            decoration: const InputDecoration(labelText: 'User Name'),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              _usernameController.text,
+            ),
           ),
           const SizedBox(height: 18),
-          TextFormField(
-            controller: _websiteController,
-            decoration: const InputDecoration(labelText: 'Website'),
-          ),
+          Align(
+              alignment: Alignment.topLeft,
+              child: Text(_websiteController.text)),
           const SizedBox(height: 18),
           ElevatedButton(
-            onPressed: _updateProfile,
-            child: Text(_loading ? 'Saving...' : 'Update'),
-          ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AccountPage()),
+                );
+              },
+              child: const Text('アカウント設定ページへ')),
           const SizedBox(height: 18),
           TextButton(onPressed: _signOut, child: const Text('Sign Out')),
         ],

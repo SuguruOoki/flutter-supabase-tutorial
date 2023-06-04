@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supabase_quickstart/constants.dart';
 import 'package:supabase_quickstart/pages/account_page.dart';
 import 'package:supabase_quickstart/pages/login_page.dart';
+import 'package:supabase_quickstart/pages/magic_link_login_page.dart';
 import 'package:supabase_quickstart/pages/sample_page.dart';
 import 'package:supabase_quickstart/pages/splash_page.dart';
 
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/': (_) => const SplashPage(),
         '/login': (_) => const LoginPage(),
+        '/magic_link_login': (_) => const MagicLinkLoginPage(),
         '/account': (_) => const AccountPage(),
         '/sample': (_) => const SamplePage(),
       },

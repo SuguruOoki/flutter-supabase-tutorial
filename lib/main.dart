@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_quickstart/constants.dart';
 import 'package:supabase_quickstart/pages/account_page.dart';
 import 'package:supabase_quickstart/pages/login_page.dart';
 import 'package:supabase_quickstart/pages/sample_page.dart';
@@ -7,9 +8,8 @@ import 'package:supabase_quickstart/pages/splash_page.dart';
 
 Future<void> main() async {
   await Supabase.initialize(
-    // TODO: Replace credentials with your own
-    url: '',
-    anonKey: '',
+    url: Constants.supabaseUrl,
+    anonKey: Constants.supabaseAnonKey,
   );
   runApp(const MyApp());
 }
